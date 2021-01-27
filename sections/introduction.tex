@@ -1,0 +1,58 @@
+% Some details from the Auto-gsr proposal on why this is necessary
+
+% An example of event-coding task with an article and the ground-truth will come here.
+
+% Talk about parang's auto-gsr system and why this is different from it
+% For example - scalability
+
+% Give example of wei's system, saurav's line listing
+
+% Give the event-coding framework/steps
+% 1) Document extraction and cleaning
+% 2) Language enrichment
+% 3) Date-time normalization
+% 4) Entity extraction
+% 5) Geo-coding
+% 6) Actor/Entity Linking
+% 7) Event detection
+% 8) Sub-type extraction
+% 9) Event coding/Fusion
+% 10) Uncertainty 
+
+
+% Evaluation and Results
+
+% 1) Time-series reference with ICEWS and GDELT 
+Present techniques for event identification, classification, and coding have lagged behind the state-of-the-art. The current state-of-the-art systems like TABARI~\cite{schrodt2009tabari},ICEWS~\cite{boschee2015icews} have significant limitations.(i) First, the focus on sentences as the source for encoding events removes a great deal of context. Event occurrences do not neatly partition into sentences. This lack of context, for example, often fails to distinguish re-reporting of historic events, and this results in high rates of duplication. (ii) Second, the text-processing systems used in event coding are still similar  to  ones  developed  more  than  20  years  ago. Although ICEWS has recently begun leveraging a  machine learning  approach,  GDELT  still  relies on  dictionary-based  pattern  matching  that leads  to  overly  simplified  or  misclassified coding  instances. (iii) Third, Wang et al.~\cite{wang2016growing} demonstrated both projects have significant limitations in terms of both reliability and validity. In terms of reliability (i.e., whether programs ostensibly using similar coding rules produce similar data), wang et al., found very low correlations to manually curated ground truth for both ICEWS and GDELT (see Fig. 1). In terms of validity (i.e., the degree to which event coding   projects   reflect   unique   real-world events), although ICEWS was robust (about 80\% of encoded events were classified as valid  events), GDELT was found to have very poor validity (only about 20\% of events were classified correctly). (iv) All existing systems are limited in that they have been trained and tuned to code events according to the CAMEO taxonomy and are unable to adapt to new domains without significant manual re-design of the systems from scratch. (v) Most importantly, all existing systems code events primarily from English and are unable to code from local languages (as focused here). The effort required to re-target these coders to non-English languages is non-trivial. (vi) Finally, it is pertinent to mention that the volume of events being encountered in practice makes manual identification and encoding prohibitively expensive and error-prone. Analysts are expected to sift through tens to hundreds of thousands of articles to arrive at a few thousand events per month.
+
+In this problem, we try to alleviate some of the above mentioned issues by building an event coding framework that understands when it doesn't know and accordingly sends uncertain instances for human intervention.
+
+
+\section{Related Work}
+ Hogenboom et al.~\cite{hogenboom2011overview} provides  an  overview  of  different extraction methodologies used by the current state-of-the-art systems. The methodologies used here include statistical as well as linguistic and lexicographical approaches for event extraction. TABARI (Textual Analysis by Augmented Replacement Instructions)~\cite{schrodt2009tabari} (and its successors JABARI and PETRARCH) and BBN’s SERIF (Statistical Entity and Relation Information Finder) ~\cite{bishop2007discrete,ramshaw2011serif} are two state-of-the-art event encoders. TABARI is one of the earlier open source event extraction systems that uses sparse parsing to recognize patterns in text.  These patterns are hand coded and identify three types of information:  actors, verbs, and actions.  For a given text, only a few initial sentences are used for event extraction, to support high throughput applications. BBN’s SERIF is another state-of-the-art event encoder that uses a series of NLP components to capture representations of type ‘who did what to whom’ in article text. The encoder works at both the sentence and document level and is able to identify and resolve entities between sentences.  Once the entities are resolved, the encoder detects and characterizes the relationship between entities. ICEWS (Integrated Crisis Early Warning System)~\cite{boschee2015icews} and GDELT (Global Database of Events, Language and Tone)~\cite{leetaru2013gdelt} are two systems that analyze hundreds of news sources from all over the world in order to generate a database of events in accordance with the CAMEO taxonomy~\cite{schrodt2012cameo}. ICEWS, which began in 2007, is a DARPA funded project that focuses primarily on monitoring, assessing and forecasting events of interests for military commanders. Internally, ICEWS employs TABARI and SERIF to encode news articles.  ICEWS focuses primarily on generating high quality, reliable events and uses several mechanisms to filter the raw stream of reported stories into a unique stream of events. GDELT, on the other hand focuses on capturing an extensive set of events both in terms of categories and geographical spread.  By design, the goal of GDELT is to collect a large number of events without worrying about false positives. Internally, it uses an enhanced version of TABARI and maps events to the CAMEO taxonomy.
+
+
+
+\section{Problem Formulation}
+
+% In this work,  we propose to built an automated event encoding system that understands when its uncertain about an encoding and thereby send it to a human for checking if possible. 
+% Specifically 
+In our framework we break down the entire task of event encoding into multiple micro-tasks  (or sub-tasks) and each such micro-task is built with uncertainty in mind. An illustration of our framework is shown in Figure.~\ref{fig:EventFramework}. As shown in the figure our system consists of the following micro-tasks
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{ch4/figures/eventCoding_framework.pdf}
+    \caption{The proposed hybrid event coding framework}
+    \label{fig:EventFramework}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Event Detection} is the process of classifying if a news article is reporting an event of interest or not.
+    \item \textbf{Geo-coding} is the task of identifying location names from text and grounding them to a latitude/longitude on earth.  
+    \item \textbf{Actor / Target Linking} involves identifying different entities mentioned in the article and linking them to known actors in our dictionary. 
+    \item \textbf{Temporal Reasoning} involves identifying the exact date in which an event took place by resolving all direct and relative dates mentioned in the text.
+    \item \textbf{Sub-type Identification} involves identifying the event sub-type. This could be either the reason for the event (like Economic, Religious) in case of civil unrest or the kind of event (like bombing, hostage taking).
+    \item \textbf{Event De-duplication} refers to the task of identifying if the current article refers to an event that was already extracted and if it refers to an already extracted event, the current article will be discarded (assuming the article reports only the duplicate event).
+\end{itemize}
+
+Each one of the micro-tasks is explained in detail in the following sections.
+
