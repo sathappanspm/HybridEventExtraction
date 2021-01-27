@@ -1,0 +1,5 @@
+\section{Actor/Target Linking}
+In this section we identify how entities in text identified as subject/object are converted/linked to actors of interest for our purpose. Proper nouns or entities recognised as \\
+PERSON/ORGANIZATION during the language enrichment step are first checked against the list of known Actors and their aliases. We specifically make use of Jaccard similarity (in terms of words/terms instead of characters) to identify the best match.  If an entity recognised by the NER system is not found in our list of known actors we call the actor as “Unknown” and also mark it for human supervision.
+
+For text detected as subject or generic nouns, e.g., hospitals, military, etc., we make use of wordnet to identify their semantic category and use the identified semantic category as the final detected actor if it's in our generic actors list (generic actors list includes actors/targets like military, terrorists, buildings, people etc.).

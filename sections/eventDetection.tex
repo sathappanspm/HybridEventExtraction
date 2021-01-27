@@ -1,0 +1,4 @@
+\section{Event Detection}
+% Details about Hierarchical Attention network here.
+
+The event detection part of our system is composed of a system of binary classifiers followed by a random forest ensemble to combine the predictions of individual classifiers. The classification models used includes methods like the Hierarchical Attention Networks (HAN), Support vector machines, Naive Bayes, Decision Trees, AdaBoost etc. In total we use a system of 16 methods and each such method is used to create two models - one with just the title of the article and another with the whole text of the article. Finally the predicted class probabilities by each model is used as features in a Random forest model to get the final prediction. The confidence/uncertainty score of prediction is taken to be the probability of the max class.

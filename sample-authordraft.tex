@@ -60,6 +60,40 @@
 \acmPrice{15.00}
 \acmISBN{978-1-4503-XXXX-X/18/06}
 
+\usepackage{import}
+
+%\usepackage{blindtext}
+
+\usepackage{caption}
+\DeclareCaptionType{copyrightbox}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{array}
+\newcolumntype{L}{>{\centering\arraybackslash}m{2cm}}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+%\graphicspath{{./figures/}}
+\usepackage[usenames,dvipsnames]{color}
+%\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
+%\usepackage{authblk}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{booktabs}
+\usepackage{csvsimple}
+\usepackage[noend]{algpseudocode}
+% \usepackage{titlesec}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\topmargin}{0in}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.1in}
 
 %%
 %% Submission ID.
@@ -207,12 +241,12 @@
 \newcommand{\myalgo}{CoolAlgo}
 %\graphicspath{{./ch2/figures/}{./ch2/}}
 \input{sections/introduction}
-\input{ch4/sections/eventDetection.tex}
-\input{ch4/sections/geocoding.tex}
-\input{ch4/sections/entity_linking.tex}
-\input{ch4/sections/othertasks.tex}
-\input{ch4/sections/results.tex}
-\input{ch4/sections/conclusion.tex}
+\input{sections/eventDetection.tex}
+\input{sections/geocoding.tex}
+\input{sections/entity_linking.tex}
+\input{sections/othertasks.tex}
+\input{sections/results.tex}
+\input{sections/conclusion.tex}
 \bibliographystyle{abbrv}
 \bibliography{references.bib}
 \end{document}

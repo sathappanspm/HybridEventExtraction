@@ -1,0 +1,8 @@
+\section{Temporal Reasoning}
+In this step, we build techniques to understand which date the event occurred. For this, first we make use of Heideltime~\cite{heideltime} temporal tagger for resolving any date/time mentions in the text. Heideltime supports innumerous languages and has exhaustive set of patterns for identifying mentions of relative temporal expressions and resolving them with respect to anchor date. The anchor date in our case is taken to be the article publication date if this information is available (in the meta tags) else it is assumed to be the date at which the article was crawled.
+
+\section{Sub-type Identification}
+For sub-type identification we make use of word-net and word-embedding based similarity measures with respect to the domain keywords.
+
+\section{Event De-duplication}
+Once an event is extracted from an article, we need to identify if the event refers to already extracted event in the database. If it refers to an already extracted event, then the current event is a duplicate and will be discarded. This entire process is called event de-duplication. In our framework, we perform de-duplication by comparing the source article text with the article text of all events within the last 2 days and deem it to be a threshold if the article similarity is higher 0.8. The article similarity is calculated as a weighted sum between 1) entity similarity, 2)location similarity and 3) text similarity. Text similarity is calculated using cosine similarity. While entity and location similarity are calculated using Jaccards metric~\cite{jaccard}.
